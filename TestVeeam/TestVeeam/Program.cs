@@ -12,11 +12,10 @@ namespace TestVeeam
         {
             try
             {
-                //Comment this if you work with console
-                args = new string[3];
-                args[0] = @"decompress";
-                args[1] = @"C:\TestVeeam\TestVeeam.gz";
-                args[2] = @"C:\TestVeeam\TestVeeam.apk";
+                //args = new string[3];
+                //args[0] = @"compress";
+                //args[1] = @"C:\TestVeeam\file.apk";
+                //args[2] = @"C:\TestVeeam\TestVeeam";
 
                 Check.ReadInputVariables(args);
 
