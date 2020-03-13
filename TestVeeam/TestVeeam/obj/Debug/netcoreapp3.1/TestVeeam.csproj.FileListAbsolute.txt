@@ -1,0 +1,11 @@
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\bin\Debug\netcoreapp3.1\TestVeeam.exe
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\bin\Debug\netcoreapp3.1\TestVeeam.deps.json
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\bin\Debug\netcoreapp3.1\TestVeeam.runtimeconfig.json
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\bin\Debug\netcoreapp3.1\TestVeeam.runtimeconfig.dev.json
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\bin\Debug\netcoreapp3.1\TestVeeam.dll
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\bin\Debug\netcoreapp3.1\TestVeeam.pdb
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\obj\Debug\netcoreapp3.1\TestVeeam.csprojAssemblyReference.cache
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\obj\Debug\netcoreapp3.1\TestVeeam.AssemblyInfoInputs.cache
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\obj\Debug\netcoreapp3.1\TestVeeam.AssemblyInfo.cs
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\obj\Debug\netcoreapp3.1\TestVeeam.dll
+C:\Users\DanTes\source\repos\Console\TestVeeam\TestVeeam\obj\Debug\netcoreapp3.1\TestVeeam.pdb
