@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Threading;
 
@@ -16,16 +17,69 @@ namespace TestVeeam.Logic
         protected ProducerConsumer queueFromWriter = new ProducerConsumer();
 
 
-        public GZipBase(string input, string output) 
+        public GZipBase(string input, string output)
         {
             InputPath = input;
             OutputPath = output;
         }
         public int GetResult()
-        {            
+        {
             return Sucessful ? 0 : 1;
         }
-        public abstract void Start();
+        public void Start()
+        {
+            Console.WriteLine(GetNameClass());
+            var threads = new[] { new Thread(Read), new Thread(Write) };
+            foreach (var t in threads)
+                t.Start();
+            for (int i = 0; i < ProcessCount; i++)
+            {
+                manualResetEvents[i] = new ManualResetEvent(false);
+                ThreadPool.QueueUserWorkItem(CompressDecompress, i);
+            }
+            WaitHandle.WaitAll(manualResetEvents);
 
+            Sucessful = true;
+        }
+        protected abstract string GetNameClass();
+        private void Read()
+        {
+            using (var fileInput = new FileStream(InputPath, FileMode.Open))
+            {
+                ReadCompressOrDecompress(fileInput);
+            }
+            queueFromReader.Stop();
+        }
+        protected abstract void ReadCompressOrDecompress(FileStream fileInput);
+        private void Write()
+        {
+            using (var fileOutput = new FileStream(GetPath(), FileMode.Append))
+            {
+                while (true)
+                {
+                    var buffer = queueFromWriter.Dequeue();
+
+                    if (buffer == null)
+                        return;
+
+                    GetBytes(buffer);
+                    fileOutput.Write(buffer.DataBuffer, 0, buffer.DataBuffer.Length);
+                }
+            }
+        }
+        protected abstract string GetPath();
+        protected virtual void GetBytes(DataBlockModel buffer) { }
+        private void CompressDecompress(object i) 
+        {
+            while (true)
+            {
+                var buffer = queueFromReader.Dequeue();
+
+                if (buffer == null)
+                    return;
+                CompressOrDecompressLogic(i,buffer);
+            }
+        }
+        protected abstract void CompressOrDecompressLogic(object i, DataBlockModel buffer);
     }
 }

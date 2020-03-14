@@ -11,101 +11,49 @@ namespace TestVeeam.Logic
         { 
 
         }
-        public override void Start()
+        protected override string GetNameClass() => "Compressing.....";
+        protected override string GetPath() => OutputPath + ".gz";
+        protected override void GetBytes(DataBlockModel buffer)
         {
-            Console.WriteLine("Compress");
-
-            var threads = new[] { new Thread(Read), new Thread(Write) };
-            foreach (var t in threads)
-                t.Start();
-            for (int i = 0; i < ProcessCount; i++)
-            {
-                manualResetEvents[i] = new ManualResetEvent(false);
-                ThreadPool.QueueUserWorkItem(Compress, i);
-            }
-            WaitHandle.WaitAll(manualResetEvents);
-            
-            Sucessful = true;
+            BitConverter.GetBytes(buffer.DataBuffer.Length).CopyTo(buffer.DataBuffer, 4);
         }
-        private void Read()
+        protected override void ReadCompressOrDecompress(FileStream fileInput) 
         {
-            try
+            byte[] buffer;
+            while (fileInput.Position < fileInput.Length)
             {
-                using (FileStream fileInput = new FileStream(InputPath, FileMode.Open))
-                {
-                    byte[] buffer;
-                    while (fileInput.Position < fileInput.Length) 
-                    {
-                        int byteSize = fileInput.Length - fileInput.Position <= ByteSize ? 
-                            (int)(fileInput.Length - fileInput.Position) : ByteSize;
-                        buffer = new byte[byteSize];
-                        fileInput.Read(buffer, 0, byteSize);
-                        queueFromReader.addDataToBuffer(buffer);
-                        ProgressBar.drawTextProgressBar((int)fileInput.Position, (int)fileInput.Length);
-                    }
-                }
-                queueFromReader.Stop();
+                int byteSize = fileInput.Length - fileInput.Position <= ByteSize ?
+                    (int)(fileInput.Length - fileInput.Position) : ByteSize;
+                buffer = new byte[byteSize];
+                fileInput.Read(buffer, 0, byteSize);
+                queueFromReader.addDataToBuffer(buffer);
+                ProgressBar.drawTextProgressBar((int)fileInput.Position, (int)fileInput.Length);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }  
         }
-
         private void Compress(object i)
         {
-            try
+            while (true)
             {
-                while (true)
-                {
-                    DataBlockModel buffer = queueFromReader.Dequeue();
+                DataBlockModel buffer = queueFromReader.Dequeue();
 
-                    if (buffer == null)
-                        return;
-
-                    using (MemoryStream memoryStream = new MemoryStream())
-                    {
-                        using (GZipStream gZipStream = new GZipStream(memoryStream,
-                            CompressionMode.Compress, true))
-                        {
-                            gZipStream.Write(buffer.DataBuffer, 0, buffer.DataBuffer.Length);
-                        }
-                        byte[] compressedData = memoryStream.ToArray();
-                        DataBlockModel compressBuffer = new DataBlockModel(buffer.IdBlock, compressedData);
-                        queueFromWriter.AddDataToWriting(compressBuffer);
-                    }
-                    ManualResetEvent doneManualResetEvents = manualResetEvents[(int)i];
-                    doneManualResetEvents.Set();
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
+                if (buffer == null)
+                    return;              
             }
         }
-
-        private void Write()
+        protected override void CompressOrDecompressLogic(object i, DataBlockModel buffer)
         {
-            try
+            using (var memoryStream = new MemoryStream())
             {
-                using (FileStream fileOutput = new FileStream(OutputPath + ".gz", FileMode.Append))
+                using (var gZipStream = new GZipStream(memoryStream, CompressionMode.Compress, true))
                 {
-                    while (true)
-                    {
-                        DataBlockModel compressBuffer = queueFromWriter.Dequeue();
-
-                        if (compressBuffer == null)
-                            return;
-
-                        BitConverter.GetBytes(compressBuffer.DataBuffer.Length).CopyTo(compressBuffer.DataBuffer, 4);
-                        fileOutput.Write(compressBuffer.DataBuffer, 0, compressBuffer.DataBuffer.Length);
-                    }
+                    gZipStream.Write(buffer.DataBuffer, 0, buffer.DataBuffer.Length);
                 }
+                byte[] compressedData = memoryStream.ToArray();
+                var compressBuffer = new DataBlockModel(buffer.IdBlock, compressedData);
+                queueFromWriter.AddDataToWriting(compressBuffer);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            var doneManualResetEvents = manualResetEvents[(int)i];
+            doneManualResetEvents.Set();
         }
     }
 }
