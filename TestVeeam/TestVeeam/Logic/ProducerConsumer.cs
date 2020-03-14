@@ -52,7 +52,6 @@ namespace TestVeeam.Logic
 
             }
         }
-
         public void Stop()
         {
             lock (locker)
