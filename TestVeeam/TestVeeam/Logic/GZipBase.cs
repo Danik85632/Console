@@ -8,13 +8,14 @@ namespace TestVeeam.Logic
     public abstract class GZipBase
     {
         protected string InputPath, OutputPath;
-        protected bool Sucessful, Cancel;
+        protected bool Sucessful;
         protected static readonly int ProcessCount = Environment.ProcessorCount;
+        protected readonly int ByteSize = 1000000; //1mb
         protected ManualResetEvent[] manualResetEvents = new ManualResetEvent[ProcessCount];
-        protected static readonly int ByteSize = 1000000; //1mb
         protected ProducerConsumer queueFromReader = new ProducerConsumer();
         protected ProducerConsumer queueFromWriter = new ProducerConsumer();
-        public GZipBase() { }
+
+
         public GZipBase(string input, string output) 
         {
             InputPath = input;

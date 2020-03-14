@@ -31,9 +31,8 @@ namespace TestVeeam.Logic
             lock (locker)
             {              
                 while (dataBlock.IdBlock != idBlock)
-                {
                     Monitor.Wait(locker);
-                }
+
                 queue.Enqueue(dataBlock);
                 idBlock++;
                 Monitor.PulseAll(locker);

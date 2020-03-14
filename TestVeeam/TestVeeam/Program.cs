@@ -12,10 +12,10 @@ namespace TestVeeam
         {
             try
             {
-                //args = new string[3];
-                //args[0] = @"compress";
-                //args[1] = @"C:\TestVeeam\file.apk";
-                //args[2] = @"C:\TestVeeam\TestVeeam";
+                args = new string[3];
+                args[0] = @"compress";
+                args[1] = @"C:\TestVeeam\file.apk";
+                args[2] = @"C:\TestVeeam\TestVeeam";
 
                 Check.ReadInputVariables(args);
 
@@ -37,8 +37,7 @@ namespace TestVeeam
                 Console.WriteLine("Error is occured!\n Method: {0}\n Error description {1}.\n Press any key to continue.", ex.TargetSite, ex.Message);
                 Console.ReadKey();
                 return 1;
-            }
-            
+            }            
         }
     }
 }

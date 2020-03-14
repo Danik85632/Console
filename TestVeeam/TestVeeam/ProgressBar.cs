@@ -6,6 +6,7 @@ namespace TestVeeam
 {
     public class ProgressBar
     {
+        private static readonly int forPersent = 100;
         public static void drawTextProgressBar(int progress, int total)
         {
             //draw empty progress bar
@@ -15,7 +16,7 @@ namespace TestVeeam
             Console.Write("]"); //end
             Console.CursorLeft = 1;
             float onechunk = 30.0f / total;
-            var isEnd = (progress / (total / 100)) == 100;
+            var isEnd = (progress / (total / forPersent)) == forPersent;
 
             //draw filled part
             int position = 1;

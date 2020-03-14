@@ -24,7 +24,7 @@ namespace TestVeeam.Logic
                 ThreadPool.QueueUserWorkItem(Compress, i);
             }
             WaitHandle.WaitAll(manualResetEvents);
-
+            
             Sucessful = true;
         }
         private void Read()
