@@ -75,6 +75,7 @@ namespace TestVeeam.Logic
                 Cancel = true;
                 ProgressBar pb = new ProgressBar(0);
                 pb.StopProgessBarAndWriteConsole(ConsoleColor.Black, "Not enough disk space to complete the operation.");
+                File.Delete(GetPath());
             }
         }
         protected abstract string GetPath();
