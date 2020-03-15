@@ -9,7 +9,7 @@ namespace TestVeeam.Logic
     public abstract class GZipBase
     {
         protected string InputPath, OutputPath;
-        protected bool Sucessful;
+        protected bool Sucessful,Cancel;
         protected static readonly int ProcessCount = Environment.ProcessorCount;
         protected readonly int ByteSize = 1000000; //1mb
         protected ManualResetEvent[] manualResetEvents = new ManualResetEvent[ProcessCount];
@@ -38,8 +38,9 @@ namespace TestVeeam.Logic
                 ThreadPool.QueueUserWorkItem(CompressDecompress, i);
             }
             WaitHandle.WaitAll(manualResetEvents);
+            threads[1].Join();
 
-            Sucessful = true;
+            Sucessful = !Cancel;
         }
         protected abstract string GetNameClass();
         private void Read()
@@ -53,25 +54,33 @@ namespace TestVeeam.Logic
         protected abstract void ReadCompressOrDecompress(FileStream fileInput);
         private void Write()
         {
-            using (var fileOutput = new FileStream(GetPath(), FileMode.Append))
+            try
             {
-                while (true)
+                using (var fileOutput = new FileStream(GetPath(), FileMode.Append))
                 {
-                    var buffer = queueFromWriter.Dequeue();
+                    while (true && !Cancel)
+                    {
+                        var buffer = queueFromWriter.Dequeue();
 
-                    if (buffer == null)
-                        return;
+                        if (buffer == null)
+                            return;
 
-                    GetBytes(buffer);
-                    fileOutput.Write(buffer.DataBuffer, 0, buffer.DataBuffer.Length);
+                        GetBytes(buffer);
+                        fileOutput.Write(buffer.DataBuffer, 0, buffer.DataBuffer.Length);
+                    }
                 }
+            }
+            catch (IOException)
+            {
+                Cancel = true;
+                ProgressBar.StopProgessBarAndWriteConsole(ConsoleColor.Black, "Not enough disk space to complete the operation.");
             }
         }
         protected abstract string GetPath();
         protected virtual void GetBytes(DataBlockModel buffer) { }
         private void CompressDecompress(object i) 
         {
-            while (true)
+            while (true && !Cancel)
             {
                 var buffer = queueFromReader.Dequeue();
 

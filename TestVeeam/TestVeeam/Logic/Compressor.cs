@@ -20,7 +20,7 @@ namespace TestVeeam.Logic
         protected override void ReadCompressOrDecompress(FileStream fileInput) 
         {
             byte[] buffer;
-            while (fileInput.Position < fileInput.Length)
+            while (fileInput.Position < fileInput.Length && !Cancel)
             {
                 int byteSize = fileInput.Length - fileInput.Position <= ByteSize ?
                     (int)(fileInput.Length - fileInput.Position) : ByteSize;
@@ -28,16 +28,6 @@ namespace TestVeeam.Logic
                 fileInput.Read(buffer, 0, byteSize);
                 queueFromReader.addDataToBuffer(buffer);
                 ProgressBar.drawTextProgressBar((int)fileInput.Position, (int)fileInput.Length);
-            }
-        }
-        private void Compress(object i)
-        {
-            while (true)
-            {
-                DataBlockModel buffer = queueFromReader.Dequeue();
-
-                if (buffer == null)
-                    return;              
             }
         }
         protected override void CompressOrDecompressLogic(object i, DataBlockModel buffer)

@@ -6,6 +6,7 @@ namespace TestVeeam
 {
     public class ProgressBar
     {
+        private static bool IsDead = false;
         private static readonly int forPercent = 100;
         public static void drawTextProgressBar(int progress, int total)
         {
@@ -28,21 +29,35 @@ namespace TestVeeam
             }
         }
 
+        public static void StopProgessBarAndWriteConsole(ConsoleColor color, string stringToWrite) 
+        {
+            IsDead = true;
+            Console.SetCursorPosition(0,1);
+            Console.BackgroundColor = color;
+            Console.WriteLine(stringToWrite);
+        }
+
         private static void StartWrite() 
         {
-            Console.CursorVisible = false;
-            //draw empty progress bar
-            Console.CursorLeft = 0;
-            Console.Write("["); //start
-            Console.CursorLeft = 32;
-            Console.Write("]"); //end
-            Console.CursorLeft = 1;
+            if (!IsDead)
+            {
+                Console.CursorVisible = false;
+                //draw empty progress bar
+                Console.CursorLeft = 0;
+                Console.Write("["); //start
+                Console.CursorLeft = 32;
+                Console.Write("]"); //end
+                Console.CursorLeft = 1;
+            }           
         }
         private static void WriteToConsole(ConsoleColor color,int cursorLeft, string stringToWrite)
         {
-            Console.BackgroundColor = color;
-            Console.CursorLeft = cursorLeft;
-            Console.Write(stringToWrite);
+            if (!IsDead)
+            {
+                Console.BackgroundColor = color;
+                Console.CursorLeft = cursorLeft;
+                Console.Write(stringToWrite);
+            }
         }
     }
 }

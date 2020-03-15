@@ -16,7 +16,7 @@ namespace TestVeeam.Logic
         protected override void ReadCompressOrDecompress(FileStream fileInput)
         {
             int inkrement = 0;
-            while (fileInput.Position < fileInput.Length)
+            while (fileInput.Position < fileInput.Length && !Cancel)
             {
                 byte[] lengthBuffer = new byte[8];
                 fileInput.Read(lengthBuffer, 0, lengthBuffer.Length);

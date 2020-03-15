@@ -43,6 +43,11 @@ namespace TestVeeam
                 throw new Exception("The file has already been compressed.");
             }
 
+            if (FileFrom.Exists && args[0] == "compress")
+            {
+                throw new Exception("The compare file has already exist");
+            }
+
             if (FileFrom.Extension != ".gz" && args[0] == "decompress")
             {
                 throw new Exception("The unzip file must have the extension .gz.");
@@ -56,6 +61,14 @@ namespace TestVeeam
             if (args[2].Length == 0)
             {
                 throw new Exception("The destination file name was not specified.");
+            }
+
+            foreach (var driveInfo in DriveInfo.GetDrives())
+            {
+                if (driveInfo.RootDirectory.FullName == FileTo.Directory.Root.FullName && driveInfo.TotalFreeSpace < FileFrom.Length)
+                {
+                    throw new Exception("Not enough disk space to complete the operation.");
+                }
             }
         }
     }

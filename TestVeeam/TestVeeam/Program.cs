@@ -12,10 +12,10 @@ namespace TestVeeam
         {
             try
             {
-                args = new string[3];
-                args[0] = @"compress";
-                args[1] = @"C:\TestVeeam\file.apk";
-                args[2] = @"C:\TestVeeam\TestVeeam";
+                //args = new string[3];
+                //args[0] = @"compress";
+                //args[1] = @"C:\TestVeeam\file.apk";
+                //args[2] = @"C:\TestVeeam\TestVeeam";
 
                 Check.ReadInputVariables(args);
 
@@ -28,7 +28,6 @@ namespace TestVeeam
                         gZip = new Decompressor(args[1], args[2]);
                         break;
                 }
-
                 gZip.Start();
                 return gZip.GetResult();
             }
