@@ -10,6 +10,7 @@ namespace TestVeeam.Logic
     {
         public Decompressor(string inputPath, string outputPath) : base(inputPath, outputPath)
         {
+
         }
         protected override string GetNameClass() => "Decompressing.....";
         protected override string GetPath() => OutputPath;

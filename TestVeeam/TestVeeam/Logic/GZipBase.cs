@@ -8,10 +8,11 @@ namespace TestVeeam.Logic
 {
     public abstract class GZipBase
     {
+        private readonly int ForCalculationSize = 10;
         protected string InputPath, OutputPath;
         protected bool Sucessful,Cancel;
         protected static readonly int ProcessCount = Environment.ProcessorCount;
-        protected readonly int ByteSize = 100000; 
+        protected readonly int ByteSize = 1000000; //1mb
         protected ManualResetEvent[] manualResetEvents = new ManualResetEvent[ProcessCount];
         protected ProducerConsumer QueueFromReader = new ProducerConsumer();
         protected ProducerConsumer queueFromWriter = new ProducerConsumer();        
@@ -19,8 +20,8 @@ namespace TestVeeam.Logic
         {
             InputPath = input;
             OutputPath = output;
-            if (new FileInfo(input).Length < Environment.ProcessorCount * ByteSize)
-                ByteSize = (int)new FileInfo(input).Length / Environment.ProcessorCount;
+            if (new FileInfo(input).Length < Environment.ProcessorCount * ByteSize * ForCalculationSize)
+                ByteSize = (int)new FileInfo(input).Length / Environment.ProcessorCount / ForCalculationSize;
         }
         public int GetResult()
         {

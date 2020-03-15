@@ -13,9 +13,9 @@ namespace TestVeeam
             try
             {
                 //args = new string[3];
-                //args[0] = @"decompress";
-                //args[1] = @"C:\TestVeeam\TestVeeam.gz";
-                //args[2] = @"C:\TestVeeam\file1.jpg";
+                //args[0] = @"compress";
+                //args[1] = @"C:\TestVeeam\file.jpg";
+                //args[2] = @"C:\TestVeeam\TestVeeam";
 
                 Check.ChechInputVariables(args);
 
