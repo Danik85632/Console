@@ -40,7 +40,7 @@ namespace TestVeeam.Logic
                 {
                     gZipStream.Read(buffer.DataBuffer, 0, buffer.DataBuffer.Length);
                     var block = new DataBlockModel(buffer.IdBlock, buffer.DataBuffer.ToArray());
-                    queueFromWriter.AddDataToWriting(block);
+                    QueueFromWriter.AddDataToWriting(block);
                 }
             }
         }

@@ -40,7 +40,7 @@ namespace TestVeeam.Logic
                 }
                 byte[] compressedData = memoryStream.ToArray();
                 var compressBuffer = new DataBlockModel(buffer.IdBlock, compressedData);
-                queueFromWriter.AddDataToWriting(compressBuffer);
+                QueueFromWriter.AddDataToWriting(compressBuffer);
             }
             var doneManualResetEvents = manualResetEvents[(int)i];
             doneManualResetEvents.Set();

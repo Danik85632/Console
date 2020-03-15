@@ -15,7 +15,7 @@ namespace TestVeeam.Logic
         protected readonly int ByteSize = 1000000; //1mb
         protected ManualResetEvent[] manualResetEvents = new ManualResetEvent[ProcessCount];
         protected ProducerConsumer QueueFromReader = new ProducerConsumer();
-        protected ProducerConsumer queueFromWriter = new ProducerConsumer();        
+        protected ProducerConsumer QueueFromWriter = new ProducerConsumer();        
         public GZipBase(string input, string output)
         {
             InputPath = input;
@@ -61,7 +61,7 @@ namespace TestVeeam.Logic
                 {
                     while (true && !Cancel)
                     {
-                        var buffer = queueFromWriter.Dequeue();
+                        var buffer = QueueFromWriter.Dequeue();
 
                         if (buffer == null)
                             return;
