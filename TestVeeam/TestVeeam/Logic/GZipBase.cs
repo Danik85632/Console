@@ -38,6 +38,7 @@ namespace TestVeeam.Logic
                 ThreadPool.QueueUserWorkItem(CompressDecompress, i);
             }
             WaitHandle.WaitAll(manualResetEvents);
+            threads[0].Join();
             Sucessful = !Cancel;
         }
         protected abstract string GetNameClass();
@@ -57,7 +58,7 @@ namespace TestVeeam.Logic
             {
                 using (var fileOutput = new FileStream(GetPath(), FileMode.Append))
                 {
-                    while (true && !Cancel)
+                    while (true)
                     {
                         var buffer = queueFromWriter.Dequeue();
 

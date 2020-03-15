@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DanTes\\source\\repos\\Console\\TestVeeam\\TestVeeam\\TestVeeam.csproj": {}
+    "C:\\Users\\DanTes\\Source\\Repos\\Console\\TestVeeam\\TestVeeam\\TestVeeam.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DanTes\\source\\repos\\Console\\TestVeeam\\TestVeeam\\TestVeeam.csproj": {
+    "C:\\Users\\DanTes\\Source\\Repos\\Console\\TestVeeam\\TestVeeam\\TestVeeam.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DanTes\\source\\repos\\Console\\TestVeeam\\TestVeeam\\TestVeeam.csproj",
+        "projectUniqueName": "C:\\Users\\DanTes\\Source\\Repos\\Console\\TestVeeam\\TestVeeam\\TestVeeam.csproj",
         "projectName": "TestVeeam",
-        "projectPath": "C:\\Users\\DanTes\\source\\repos\\Console\\TestVeeam\\TestVeeam\\TestVeeam.csproj",
+        "projectPath": "C:\\Users\\DanTes\\Source\\Repos\\Console\\TestVeeam\\TestVeeam\\TestVeeam.csproj",
         "packagesPath": "C:\\Users\\DanTes\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DanTes\\source\\repos\\Console\\TestVeeam\\TestVeeam\\obj\\",
+        "outputPath": "C:\\Users\\DanTes\\Source\\Repos\\Console\\TestVeeam\\TestVeeam\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"
