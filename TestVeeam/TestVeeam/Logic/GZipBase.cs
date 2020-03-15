@@ -74,7 +74,8 @@ namespace TestVeeam.Logic
             catch (IOException)
             {
                 Cancel = true;
-                ProgressBar.StopProgessBarAndWriteConsole(ConsoleColor.Black, "Not enough disk space to complete the operation.");
+                ProgressBar pb = new ProgressBar(0);
+                pb.StopProgessBarAndWriteConsole(ConsoleColor.Black, "Not enough disk space to complete the operation.");
             }
         }
         protected abstract string GetPath();
