@@ -26,7 +26,7 @@ namespace TestVeeam.Logic
                     (int)(fileInput.Length - fileInput.Position) : ByteSize;
                 buffer = new byte[byteSize];
                 fileInput.Read(buffer, 0, byteSize);
-                queueFromReader.addDataToBuffer(buffer);
+                QueueFromReader.addDataToBuffer(buffer);
                 pb.drawTextProgressBar((int)fileInput.Position);
             }
         }

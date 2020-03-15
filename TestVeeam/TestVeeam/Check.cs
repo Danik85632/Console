@@ -7,7 +7,7 @@ namespace TestVeeam
 {
     public static class Check
     {
-        public static void ReadInputVariables(string[] args)
+        public static void ChechInputVariables(string[] args)
         {
             if (args.Length == 0 || args.Length > 3)
             {
@@ -36,26 +36,21 @@ namespace TestVeeam
             }
 
             FileInfo FileFrom = new FileInfo(args[1]);
-            FileInfo FileTo = new FileInfo(args[2]);
+            FileInfo FileTo = new FileInfo(args[2] + ".gz");
 
             if (FileFrom.Extension == ".gz" && args[0] == "compress")
             {
                 throw new Exception("The file has already been compressed.");
             }
 
-            if (FileFrom.Exists && args[0] == "compress")
+            if (FileTo.Exists && args[0] == "compress")
             {
-                throw new Exception("The compare file has already exist");
+                throw new Exception("The compressed file has already been exist");
             }
 
             if (FileFrom.Extension != ".gz" && args[0] == "decompress")
             {
                 throw new Exception("The unzip file must have the extension .gz.");
-            }
-
-            if (FileTo.Extension == ".gz" && FileTo.Exists)
-            {
-                throw new Exception("The destination file already exists.Please provide a different file name.");
             }
 
             if (args[2].Length == 0)

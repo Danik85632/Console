@@ -13,7 +13,7 @@ namespace TestVeeam.Logic
         protected static readonly int ProcessCount = Environment.ProcessorCount;
         protected readonly int ByteSize = 1000000; //1mb
         protected ManualResetEvent[] manualResetEvents = new ManualResetEvent[ProcessCount];
-        protected ProducerConsumer queueFromReader = new ProducerConsumer();
+        protected ProducerConsumer QueueFromReader = new ProducerConsumer();
         protected ProducerConsumer queueFromWriter = new ProducerConsumer();
 
 
@@ -38,8 +38,6 @@ namespace TestVeeam.Logic
                 ThreadPool.QueueUserWorkItem(CompressDecompress, i);
             }
             WaitHandle.WaitAll(manualResetEvents);
-            threads[1].Join();
-
             Sucessful = !Cancel;
         }
         protected abstract string GetNameClass();
@@ -50,7 +48,7 @@ namespace TestVeeam.Logic
                 ProgressBar pb = new ProgressBar((int)fileInput.Length);
                 ReadCompressOrDecompress(fileInput, pb);
             }
-            queueFromReader.Stop();
+            QueueFromReader.Stop();
         }
         protected abstract void ReadCompressOrDecompress(FileStream fileInput, ProgressBar pb);
         private void Write()
@@ -84,7 +82,7 @@ namespace TestVeeam.Logic
         {
             while (true && !Cancel)
             {
-                var buffer = queueFromReader.Dequeue();
+                var buffer = QueueFromReader.Dequeue();
 
                 if (buffer == null)
                     return;

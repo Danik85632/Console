@@ -6,20 +6,20 @@ namespace TestVeeam
 {
     public class ProgressBar
     {
-        public ProgressBar(int total) 
+        public ProgressBar(int totalCount) 
         {
-            this.total = total;
+            TotalCount = totalCount;
         }
         private bool IsDead = false;
-        private int total;
-        private readonly int forPercent = 100;
-        public void drawTextProgressBar(int progress)
+        private int TotalCount;
+        private readonly int ForPercent = 100;
+        public void drawTextProgressBar(int currentProgress)
         {
             StartWrite();
-            float onechunk = 30.0f / total;
-            var isEnd = (progress / (total / forPercent)) == forPercent;
+            float onechunk = 30.0f / TotalCount;
+            var isEnd = (currentProgress / (TotalCount / ForPercent)) == ForPercent;
             int position = 1;
-            for (int i = 0; i < onechunk * progress; i++)//draw filled part
+            for (int i = 0; i < onechunk * currentProgress; i++)//draw filled part
             {
                 WriteToConsole(ConsoleColor.Green, position++, " ");
             }
@@ -27,13 +27,12 @@ namespace TestVeeam
             {
                 WriteToConsole(ConsoleColor.Gray, position++, " ");
             }
-            WriteToConsole(ConsoleColor.Black, 35, progress.ToString() + " of " + total.ToString() + "    ");//draw totals    
+            WriteToConsole(ConsoleColor.Black, 35, currentProgress.ToString() + " of " + TotalCount.ToString() + "    ");//draw totals    
             if (isEnd)
             {
                 Console.WriteLine("\n\nProcess is done");
             }
         }
-
         public void StopProgessBarAndWriteConsole(ConsoleColor color, string stringToWrite) 
         {
             IsDead = true;
@@ -41,7 +40,6 @@ namespace TestVeeam
             Console.BackgroundColor = color;
             Console.WriteLine(stringToWrite);
         }
-
         private void StartWrite() 
         {
             if (!IsDead)

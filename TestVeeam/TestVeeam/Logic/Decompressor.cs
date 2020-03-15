@@ -26,7 +26,7 @@ namespace TestVeeam.Logic
                 lengthBuffer.CopyTo(compressedData, 0);
 
                 var compressBuffer = new DataBlockModel(inkrement, new byte[ByteSize], compressedData);
-                queueFromReader.AddDataToWriting(compressBuffer);
+                QueueFromReader.AddDataToWriting(compressBuffer);
                 inkrement++;
                 pb.drawTextProgressBar((int)fileInput.Position);
             }
