@@ -11,16 +11,16 @@ namespace TestVeeam.Logic
         protected string InputPath, OutputPath;
         protected bool Sucessful,Cancel;
         protected static readonly int ProcessCount = Environment.ProcessorCount;
-        protected readonly int ByteSize = 1000000; //1mb
+        protected readonly int ByteSize = 100000; 
         protected ManualResetEvent[] manualResetEvents = new ManualResetEvent[ProcessCount];
         protected ProducerConsumer QueueFromReader = new ProducerConsumer();
-        protected ProducerConsumer queueFromWriter = new ProducerConsumer();
-
-
+        protected ProducerConsumer queueFromWriter = new ProducerConsumer();        
         public GZipBase(string input, string output)
         {
             InputPath = input;
             OutputPath = output;
+            if (new FileInfo(input).Length < Environment.ProcessorCount * ByteSize)
+                ByteSize = (int)new FileInfo(input).Length / Environment.ProcessorCount;
         }
         public int GetResult()
         {
@@ -58,7 +58,7 @@ namespace TestVeeam.Logic
             {
                 using (var fileOutput = new FileStream(GetPath(), FileMode.Append))
                 {
-                    while (true)
+                    while (true && !Cancel)
                     {
                         var buffer = queueFromWriter.Dequeue();
 
@@ -74,7 +74,7 @@ namespace TestVeeam.Logic
             {
                 Cancel = true;
                 ProgressBar pb = new ProgressBar(0);
-                pb.StopProgessBarAndWriteConsole(ConsoleColor.Black, "Not enough disk space to complete the operation.");
+                pb.StopProgessBarAndWriteConsole(ConsoleColor.Black, "There is not enough disk space to complete this operation");
                 File.Delete(GetPath());
             }
         }

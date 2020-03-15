@@ -12,10 +12,10 @@ namespace TestVeeam
         {
             try
             {
-                args = new string[3];
-                args[0] = @"compress";
-                args[1] = @"C:\TestVeeam\file.apk";
-                args[2] = @"C:\TestVeeam\TestVeeam";
+                //args = new string[3];
+                //args[0] = @"decompress";
+                //args[1] = @"C:\TestVeeam\TestVeeam.gz";
+                //args[2] = @"C:\TestVeeam\file1.jpg";
 
                 Check.ChechInputVariables(args);
 
@@ -33,7 +33,7 @@ namespace TestVeeam
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Error is occured!\n Method: {0}\n Error description {1}.\n Press any key to continue.", ex.TargetSite, ex.Message);
+                Console.WriteLine("Error is occured!\n Method: {0}\n Error description {1}\n Press any key to continue.", ex.TargetSite, ex.Message);
                 Console.ReadKey();
                 return 1;
             }            

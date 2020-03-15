@@ -12,7 +12,7 @@ namespace TestVeeam.Logic
         {
         }
         protected override string GetNameClass() => "Decompressing.....";
-        protected override string GetPath() => InputPath.Remove(InputPath.Length - 3);
+        protected override string GetPath() => OutputPath;
         protected override void ReadCompressOrDecompress(FileStream fileInput, ProgressBar pb)
         {
             int inkrement = 0;
