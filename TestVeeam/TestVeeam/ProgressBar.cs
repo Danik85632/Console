@@ -6,9 +6,14 @@ namespace TestVeeam
 {
     public class ProgressBar
     {
-        private static bool IsDead = false;
-        private static readonly int forPercent = 100;
-        public static void drawTextProgressBar(int progress, int total)
+        public ProgressBar(int total) 
+        {
+            this.total = total;
+        }
+        private bool IsDead = false;
+        private int total;
+        private readonly int forPercent = 100;
+        public void drawTextProgressBar(int progress)
         {
             StartWrite();
             float onechunk = 30.0f / total;
@@ -29,7 +34,7 @@ namespace TestVeeam
             }
         }
 
-        public static void StopProgessBarAndWriteConsole(ConsoleColor color, string stringToWrite) 
+        public void StopProgessBarAndWriteConsole(ConsoleColor color, string stringToWrite) 
         {
             IsDead = true;
             Console.SetCursorPosition(0,1);
@@ -37,7 +42,7 @@ namespace TestVeeam
             Console.WriteLine(stringToWrite);
         }
 
-        private static void StartWrite() 
+        private void StartWrite() 
         {
             if (!IsDead)
             {
@@ -50,7 +55,7 @@ namespace TestVeeam
                 Console.CursorLeft = 1;
             }           
         }
-        private static void WriteToConsole(ConsoleColor color,int cursorLeft, string stringToWrite)
+        private void WriteToConsole(ConsoleColor color,int cursorLeft, string stringToWrite)
         {
             if (!IsDead)
             {

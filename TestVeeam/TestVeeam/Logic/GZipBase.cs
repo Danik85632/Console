@@ -47,11 +47,12 @@ namespace TestVeeam.Logic
         {
             using (var fileInput = new FileStream(InputPath, FileMode.Open))
             {
-                ReadCompressOrDecompress(fileInput);
+                ProgressBar pb = new ProgressBar((int)fileInput.Length);
+                ReadCompressOrDecompress(fileInput, pb);
             }
             queueFromReader.Stop();
         }
-        protected abstract void ReadCompressOrDecompress(FileStream fileInput);
+        protected abstract void ReadCompressOrDecompress(FileStream fileInput, ProgressBar pb);
         private void Write()
         {
             try

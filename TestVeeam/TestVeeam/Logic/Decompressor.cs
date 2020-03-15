@@ -13,7 +13,7 @@ namespace TestVeeam.Logic
         }
         protected override string GetNameClass() => "Decompressing.....";
         protected override string GetPath() => InputPath.Remove(InputPath.Length - 3);
-        protected override void ReadCompressOrDecompress(FileStream fileInput)
+        protected override void ReadCompressOrDecompress(FileStream fileInput, ProgressBar pb)
         {
             int inkrement = 0;
             while (fileInput.Position < fileInput.Length && !Cancel)
@@ -28,7 +28,7 @@ namespace TestVeeam.Logic
                 var compressBuffer = new DataBlockModel(inkrement, new byte[ByteSize], compressedData);
                 queueFromReader.AddDataToWriting(compressBuffer);
                 inkrement++;
-                ProgressBar.drawTextProgressBar((int)fileInput.Position, (int)fileInput.Length);
+                pb.drawTextProgressBar((int)fileInput.Position);
             }
         }
         protected override void CompressOrDecompressLogic(object i,DataBlockModel buffer)
